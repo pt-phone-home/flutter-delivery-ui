@@ -109,6 +109,10 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double totalPrice = 0;
+    currentUser.cart.forEach((Order order) {
+      return totalPrice += order.quantity * order.food.price;
+    });
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepOrangeAccent,
@@ -130,15 +134,44 @@ class _CartScreenState extends State<CartScreen> {
                   children: [
                     Text(
                       'Estimated delivery time:',
-                      style:
-                          TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600,),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     Text(
                       '25 min',
-                      style:
-                          TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600,),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Total cost:',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      '\$${totalPrice.toStringAsFixed(2)}',
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.green[700]),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 100.0,
                 ),
               ],
             ),
@@ -150,6 +183,34 @@ class _CartScreenState extends State<CartScreen> {
             color: Colors.grey,
           );
         },
+      ),
+      bottomSheet: Container(
+        height: 100.0,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(0, -1),
+              blurRadius: 6.0,
+            ),
+          ],
+        ),
+        child: Center(
+          child: TextButton(
+            child: Text(
+              'CHECKOUT',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 2.0,
+              ),
+            ),
+            onPressed: () => print('checkout'),
+          ),
+        ),
       ),
     );
   }
